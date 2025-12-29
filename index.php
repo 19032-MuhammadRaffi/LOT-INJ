@@ -32,6 +32,7 @@ function loginUser($username, $password, $conn)
   if ($data && $password == $data['password']) {
     $_SESSION['role'] = $data['role'];
     $_SESSION['username'] = $data['username'];
+    $_SESSION['area'] = $data['area'];
     if ($data['role'] == 'Admin') {
       header('Location: page/admin/index.php');
     } elseif ($data['role'] == 'Injection') {

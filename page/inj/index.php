@@ -58,6 +58,15 @@ require 'function_index.php';
         <!-- Data -->
         <div class="row mt-3">
             <p class="h2">Injection Production Data</p>
+            <form method="POST" class="mt-3 d-flex gap-2 align-items-center justify-content-center">
+                <button type="submit" name="AC_DATA" class="btn btn-primary">Show - AC Production</button>
+                <button type="submit" name="WM_DATA" class="btn btn-primary">Show - WM Production</button>
+            </form>
+            <?php if (!$loadData): ?>
+                <p style="text-align:center;color:#888">
+                    Silakan pilih AC atau WM untuk menampilkan data history
+                </p>
+            <?php endif; ?>
             <?php foreach ($komponen as $kode => $data): ?>
                 <div class="col-md-6 col-lg-6 col-xl-3 mt-3">
                     <div class="card text-center mb-3">

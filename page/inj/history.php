@@ -93,6 +93,15 @@ require 'function_history.php';
         <div class="row">
             <!-- Production History -->
             <h4 class="text-center my-3">History Production - <?= date('F', mktime(0, 0, 0, $selectedMonth, 1)) ?> <?= $selectedYear ?></h4>
+            <form method="POST" class="mt-3 d-flex gap-2 align-items-center justify-content-center">
+                <button type="submit" name="AC_DATA" class="btn btn-primary">AC Production</button>
+                <button type="submit" name="WM_DATA" class="btn btn-primary">WM Production</button>
+            </form>
+            <?php if (!$loadData): ?>
+                <p style="text-align:center;color:#888">
+                    Silakan pilih AC atau WM untuk menampilkan data history
+                </p>
+            <?php endif; ?>
             <?php
             foreach ($komponen as $kode => $data): ?>
                 <div class="col-md-6 col-lg-6 col-xl-3 mt-2">
