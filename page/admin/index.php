@@ -40,9 +40,9 @@ if (isset($_POST['btn_add_user'])) {
 // Add Part
 if (isset($_POST['btn_add_part'])) {
     $part_code = $_POST['part_code'];
-    $nama_part = $_POST['nama_part'];
+    $part_name = $_POST['part_name'];
 
-    $query = "INSERT INTO part (part_code, nama_part) VALUES ('$part_code', '$nama_part')";
+    $query = "INSERT INTO part (part_code, part_name) VALUES ('$part_code', '$part_name')";
     mysqli_query($conn, $query);
     echo "<script>alert('Success');</script>";
     echo "<script>window.location.href = 'index.php';</script>";
@@ -133,9 +133,9 @@ if (isset($_POST['btn_add_part'])) {
                                                 </div>
                                                 <div class="form-floating mt-3">
                                                     <select class="form-select" id="floatingSelect" name="role">
-                                                        <option value="Press">Press</option>
-                                                        <option value="Paint">Paint</option>
+                                                        <option value="Injection">Injection</option>
                                                         <option value="Assy">Assy</option>
+                                                        <option value="Admin">Admin</option>
                                                     </select>
                                                     <label for="floatingSelect">Role</label>
                                                 </div>
@@ -201,8 +201,8 @@ if (isset($_POST['btn_add_part'])) {
                                                     <label for="floatingPartCode">Part Code</label>
                                                 </div>
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" id="floatingPartName" name="nama_part">
-                                                    <label for="floatingPartName">Nama Part</label>
+                                                    <input type="text" class="form-control" id="floatingPartName" name="part_name">
+                                                    <label for="floatingPartName">Part Name</label>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -221,7 +221,7 @@ if (isset($_POST['btn_add_part'])) {
                             <thead>
                                 <tr>
                                     <th scope="col">Part Code</th>
-                                    <th scope="col">Nama Part</th>
+                                    <th scope="col">Part Name</th>
                                     <th scope="col" style="width: 90px;">Action</th>
                                 </tr>
                             </thead>
