@@ -118,8 +118,7 @@ if (isset($_POST['btn_delete_user'])) {
                                 <div class="form-floating mt-3">
                                     <select class="form-select" id="floatingSelect" name="role">
                                         <option value="Admin" <?php if ($user['role'] == 'Admin') echo 'selected'; ?>>Admin</option>
-                                        <option value="Press" <?php if ($user['role'] == 'Press') echo 'selected'; ?>>Press</option>
-                                        <option value="Paint" <?php if ($user['role'] == 'Paint') echo 'selected'; ?>>Paint</option>
+                                        <option value="Injection" <?php if ($user['role'] == 'Injection') echo 'selected'; ?>>Injection</option>
                                         <option value="Assy" <?php if ($user['role'] == 'Assy') echo 'selected'; ?>>Assy</option>
                                     </select>
                                     <label for="floatingSelect">Role</label>

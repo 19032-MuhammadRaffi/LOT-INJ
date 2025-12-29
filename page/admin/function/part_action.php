@@ -23,10 +23,9 @@ $part = mysqli_fetch_assoc($result);
 if (isset($_POST['btn_update_part'])) {
     $part_code = $_POST['part_code'];
     $part_name = $_POST['part_name'];
-    $qty_press = $_POST['qty_press'];
-    $qty_paint = $_POST['qty_paint'];
+    $qty_injection = $_POST['qty_injection'];
 
-    $query = "UPDATE part SET part_name = '$part_name', qty_press = '$qty_press', qty_paint = '$qty_paint' WHERE part_code = '$part_code'";
+    $query = "UPDATE part SET part_name = '$part_name', qty_injection = '$qty_injection' WHERE part_code = '$part_code'";
     mysqli_query($conn, $query);
     // Alert Success
     echo "<script>alert('Success');</script>";
@@ -118,12 +117,8 @@ if (isset($_POST['btn_delete_part'])) {
                                     <label for="floatingInput">Part Name</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" name="qty_press" value="<?php echo htmlspecialchars($part['qty_press']); ?>">
-                                    <label for="floatingInput">Qty Press</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" name="qty_paint" value="<?php echo htmlspecialchars($part['qty_paint']); ?>">
-                                    <label for="floatingInput">Qty Paint</label>
+                                    <input type="text" class="form-control" id="floatingInput" name="qty_injection" value="<?php echo htmlspecialchars($part['qty_injection']); ?>">
+                                    <label for="floatingInput">Qty Injection</label>
                                 </div>
                                 <!-- Button Edit -->
                                 <button type="submit" class="btn btn-primary w-100" name="btn_update_part">Update Part</button>
