@@ -14,9 +14,9 @@ if (isset($_SESSION['role'])) {
   if ($_SESSION['role'] == 'Admin') {
     header('Location: page/admin/index.php');
   } elseif ($_SESSION['role'] == 'Injection') {
-    header('Location: page/press/index.php');
+    header('Location: page/inj/index.php');
   } elseif ($_SESSION['role'] == 'Assy') {
-    header('Location: page/paint/index.php');
+    header('Location: page/assy/index.php');
   } else {
     header('Location: index.php');
   }
@@ -35,7 +35,7 @@ function loginUser($username, $password, $conn)
     if ($data['role'] == 'Admin') {
       header('Location: page/admin/index.php');
     } elseif ($data['role'] == 'Injection') {
-      header('Location: page/press/index.php');
+      header('Location: page/inj/index.php');
     } elseif ($data['role'] == 'Assy') {
       header('Location: page/assy/index.php');
     } else {
@@ -71,7 +71,7 @@ if (isset($_POST['btn_login'])) {
   <!-- Main Content -->
   <main class="form-signin w-100 m-auto">
     <form action="" method="POST" autocomplete="off">
-      <h1 class="h3 mb-3 text-center">Production PP</h1>
+      <h1 class="h3 mb-3 text-center">Production INJ</h1>
       <div class="form-floating">
         <input type="text" class="form-control" id="floatingUsername" placeholder="Username" name="username" required autofocus autocomplete="off">
         <label for="floatingUsername">Username</label>

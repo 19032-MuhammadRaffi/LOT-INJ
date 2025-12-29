@@ -63,7 +63,7 @@ function updateHistoryLS($conn)
             // UPDATE
             mysqli_query($conn, "
                 UPDATE history_ls
-                SET qty_end_injection = $qtyInjection,
+                SET qty_end_injection = $qtyInjection
                 WHERE part_code = '$partCode'
                 AND DATE_FORMAT(date_prod, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
             ");
@@ -71,7 +71,7 @@ function updateHistoryLS($conn)
             // INSERT
             mysqli_query($conn, "
                 INSERT INTO history_ls
-                (date_prod, part_code, qty_end_injection, qty_end_assy)
+                (date_prod, part_code, qty_end_injection)
                 VALUES
                 (CURDATE(), '$partCode', $qtyInjection)
             ");
@@ -182,7 +182,6 @@ foreach ($komponen as &$d) {
     $stockData = mysqli_fetch_assoc($queryStock);
 
     $d['stock_injection'] = (int)$stockData['qty_injection'];
-    $d['stock_assy'] = (int)$stockData['qty_assy'];
 }
 unset($d);
 
@@ -296,12 +295,22 @@ if (isset($_POST['btn_voucher'])) {
         }
 
         // UPDATE TABLE PART STOCK
-        if (!mysqli_query($conn, "
+        if ($area === 'assy') {
+            if (!mysqli_query($conn, "
+                UPDATE part
+                SET qty_injection = qty_injection - $qty
+                WHERE part_code = '$partCode'
+            ")) {
+                throw new Exception('Gagal update part stock untuk assy');
+            }
+        } else {
+            if (!mysqli_query($conn, "
                 UPDATE part
                 SET qty_{$area} = qty_{$area} - $qty
                 WHERE part_code = '$partCode'
             ")) {
-            throw new Exception('Gagal update part stock');
+                throw new Exception('Gagal update part stock untuk press/paint');
+            }
         }
 
         // COMMIT

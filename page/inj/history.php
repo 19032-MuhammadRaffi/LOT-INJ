@@ -106,32 +106,28 @@ require 'function_history.php';
                             </div>
                             <div class="d-flex justify-content-center mt-1">
                                 <button class="btn btn-sm btn-primary w-100 me-1" disabled>Keterangan</button>
-                                <button class="btn btn-sm btn-primary w-100 me-1" disabled>Press</button>
-                                <button class="btn btn-sm btn-primary w-100 me-1" disabled>Painting</button>
+                                <button class="btn btn-sm btn-primary w-100 me-1" disabled>Injection</button>
                                 <button class="btn btn-sm btn-primary w-100" disabled>Assy</button>
                             </div>
 
                             <!-- Total Production -->
                             <div class="d-flex justify-content-center mt-1">
                                 <button class="btn btn-sm btn-outline w-100 me-1" disabled>Output</button>
-                                <button class="btn btn-sm btn-outline w-100 me-1" disabled><?= $data['total_press'] ?></button>
-                                <button class="btn btn-sm btn-outline w-100 me-1" disabled><?= $data['total_paint'] ?></button>
+                                <button class="btn btn-sm btn-outline w-100 me-1" disabled><?= $data['total_injection'] ?></button>
                                 <button class="btn btn-sm btn-outline w-100" disabled><?= $data['total_assy'] ?></button>
                             </div>
 
                             <!-- Monthly Bon Kuning -->
                             <div class="d-flex justify-content-center mt-1">
                                 <button class="btn btn-sm btn-outline w-100 me-1" disabled>Voucher</button>
-                                <button class="btn btn-sm btn-outline w-100 me-1" disabled><?= $data['qty_bk_press'] ?></button>
-                                <button class="btn btn-sm btn-outline w-100 me-1" disabled><?= $data['qty_bk_paint'] ?></button>
+                                <button class="btn btn-sm btn-outline w-100 me-1" disabled><?= $data['qty_bk_injection'] ?></button>
                                 <button class="btn btn-sm btn-outline w-100" disabled><?= $data['qty_bk_assy'] ?></button>
                             </div>
 
                             <!-- End Stock -->
                             <div class="d-flex justify-content-center mt-1">
                                 <button class="btn btn-sm btn-outline w-100 me-1" disabled>End Stock</button>
-                                <button class="btn btn-sm btn-outline w-100 me-1" disabled><?= $data['qty_end_press'] ?></button>
-                                <button class="btn btn-sm btn-outline w-100 me-1" disabled><?= $data['qty_end_paint'] ?></button>
+                                <button class="btn btn-sm btn-outline w-100 me-1" disabled><?= $data['qty_end_injection'] ?></button>
                                 <button class="btn btn-sm btn-outline w-100" disabled><?= $data['qty_end_assy'] ?></button>
                             </div>
 
@@ -141,8 +137,7 @@ require 'function_history.php';
                             </div>
                             <div class="d-flex justify-content-center mt-1">
                                 <button class="btn btn-sm btn-success w-100 me-1" disabled>Keterangan</button>
-                                <button class="btn btn-sm btn-success w-100 me-1" disabled>Press</button>
-                                <button class="btn btn-sm btn-success w-100 me-1" disabled>Painting</button>
+                                <button class="btn btn-sm btn-success w-100 me-1" disabled>Injection</button>
                                 <button class="btn btn-sm btn-success w-100" disabled>Assy</button>
                             </div>
 
@@ -150,14 +145,12 @@ require 'function_history.php';
                             <?php foreach ($dates as $date): ?>
                                 <?php
                                 $day = date('j', strtotime($date)); // ambil tanggal 1–31
-                                $press = array_sum($dataPress[$kode][$date] ?? []);
-                                $paint = array_sum($dataPaint[$kode][$date] ?? []);
+                                $injection = array_sum($dataInjection[$kode][$date] ?? []);
                                 $assy  = array_sum($dataAssy[$kode][$date] ?? []);
                                 ?>
                                 <div class="d-flex justify-content-center mt-1">
                                     <button class="btn btn-sm btn-outline w-100 me-1" disabled><?= $day ?></button>
-                                    <button class="btn btn-sm btn-outline w-100 me-1" disabled><?= $press ?></button>
-                                    <button class="btn btn-sm btn-outline w-100 me-1" disabled><?= $paint ?></button>
+                                    <button class="btn btn-sm btn-outline w-100 me-1" disabled><?= $injection ?></button>
                                     <button class="btn btn-sm btn-outline w-100" disabled><?= $assy ?></button>
                                 </div>
                             <?php endforeach; ?>

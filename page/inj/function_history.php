@@ -5,7 +5,7 @@
 require '../../conn.php';
 
 session_start();
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Press') {
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Injection') {
     header('location: ../../index.php');
     exit;
 }
@@ -65,14 +65,11 @@ while ($r = mysqli_fetch_assoc($qPart)) {
     $komponen[$r['part_code']] = [
         'part_code' => $r['part_code'],
         'part_name' => $r['part_name'],
-        'total_press' => 0,
-        'total_paint' => 0,
+        'total_injection' => 0,
         'total_assy'  => 0,
-        'qty_end_press' => 0,
-        'qty_end_paint' => 0,
+        'qty_end_injection' => 0,
         'qty_end_assy'  => 0,
-        'qty_bk_press'  => 0,
-        'qty_bk_paint'  => 0,
+        'qty_bk_injection'  => 0,
         'qty_bk_assy'   => 0
     ];
 }
@@ -94,7 +91,7 @@ function getTrans($conn, $status, $month, $year)
 /* ===============================
    MONTHLY TOTAL
 ================================ */
-foreach (['PRESS', 'PAINT', 'ASSY'] as $st) {
+foreach (['INJECTION', 'ASSY'] as $st) {
     $res = getTrans($conn, $st, $selectedMonth, $selectedYear);
     while ($r = mysqli_fetch_assoc($res)) {
         $komponen[$r['part_code']]['total_' . strtolower($st)] += (int)$r['qty'];
@@ -106,8 +103,8 @@ foreach (['PRESS', 'PAINT', 'ASSY'] as $st) {
 ================================ */
 $historyLS = [];
 $qLS = mysqli_query($conn, "
-    SELECT part_code, qty_end_press, qty_end_paint, qty_end_assy,
-           qty_bk_press, qty_bk_paint, qty_bk_assy
+    SELECT part_code, qty_end_injection, qty_end_assy,
+           qty_bk_injection, qty_bk_assy
     FROM history_ls
     WHERE MONTH(date_prod) = $selectedMonth
     AND YEAR(date_prod)  = $selectedYear
@@ -124,12 +121,10 @@ foreach ($komponen as &$d) {
     $p = $d['part_code'];
 
     if (isset($historyLS[$p])) {
-        $d['qty_end_press'] = (int)$historyLS[$p]['qty_end_press'];
-        $d['qty_end_paint'] = (int)$historyLS[$p]['qty_end_paint'];
+        $d['qty_end_injection'] = (int)$historyLS[$p]['qty_end_injection'];
         $d['qty_end_assy']  = (int)$historyLS[$p]['qty_end_assy'];
 
-        $d['qty_bk_press']  = (int)$historyLS[$p]['qty_bk_press'];
-        $d['qty_bk_paint']  = (int)$historyLS[$p]['qty_bk_paint'];
+        $d['qty_bk_injection']  = (int)$historyLS[$p]['qty_bk_injection'];
         $d['qty_bk_assy']   = (int)$historyLS[$p]['qty_bk_assy'];
     }
 }
@@ -138,8 +133,7 @@ unset($d);
 /* ===============================
    DAILY HISTORY DATA
 ================================ */
-$dataPress = [];
-$dataPaint = [];
+$dataInjection = [];
 $dataAssy  = [];
 
 function getHistory($conn, $status, $month, $year)
@@ -154,7 +148,7 @@ function getHistory($conn, $status, $month, $year)
     ");
 }
 
-foreach (['PRESS', 'PAINT', 'ASSY'] as $st) {
+foreach (['INJECTION', 'ASSY'] as $st) {
     $res = getHistory($conn, $st, $selectedMonth, $selectedYear);
     while ($r = mysqli_fetch_assoc($res)) {
         ${'data' . ucfirst(strtolower($st))}[$r['part_code']][$r['tanggal']][$r['shift']]

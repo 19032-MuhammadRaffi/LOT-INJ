@@ -57,7 +57,7 @@ require 'function_index.php';
         </div>
         <!-- Data -->
         <div class="row mt-3">
-            <p class="h2">Press Painting Production Data</p>
+            <p class="h2">Injection Production Data</p>
             <?php foreach ($komponen as $kode => $data): ?>
                 <div class="col-md-6 col-lg-6 col-xl-3 mt-3">
                     <div class="card text-center mb-3">
@@ -66,64 +66,56 @@ require 'function_index.php';
                             <!-- Header -->
                             <div class="d-flex justify-content-center mt-2">
                                 <button type="button" class="me-1 btn btn-sm btn-primary w-100" disabled>Keterangan</button>
-                                <button type="button" class="me-1 btn btn-sm btn-primary w-100" disabled>Press</button>
-                                <button type="button" class="me-1 btn btn-sm btn-primary w-100" disabled>Painting</button>
+                                <button type="button" class="me-1 btn btn-sm btn-primary w-100" disabled>Injection</button>
                                 <button type="button" class="btn btn-sm btn-primary w-100" disabled>Assy</button>
                             </div>
 
                             <!-- Monthly Transaction -->
                             <div class="d-flex justify-content-center mt-2">
                                 <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled>Monthly</button>
-                                <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled><?= $data['total_press'] ?></button>
-                                <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled><?= $data['total_paint'] ?></button>
+                                <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled><?= $data['total_injection'] ?></button>
                                 <button type="button" class="btn btn-sm btn-outline w-100" disabled><?= $data['total_assy'] ?></button>
                             </div>
 
                             <!-- Daily Transaction -->
                             <div class="d-flex justify-content-center mt-2">
                                 <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled>Daily</button>
-                                <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled><?= $data['daily_press'] ?></button>
-                                <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled><?= $data['daily_paint'] ?></button>
+                                <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled><?= $data['daily_injection'] ?></button>
                                 <button type="button" class="btn btn-sm btn-outline w-100" disabled><?= $data['daily_assy'] ?></button>
                             </div>
 
                             <!-- Shift 1 Transaction -->
                             <div class="d-flex justify-content-center mt-2">
                                 <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled>Shift 1</button>
-                                <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled><?= $data['shift1_press'] ?></button>
-                                <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled><?= $data['shift1_paint'] ?></button>
+                                <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled><?= $data['shift1_injection'] ?></button>
                                 <button type="button" class="btn btn-sm btn-outline w-100" disabled><?= $data['shift1_assy'] ?></button>
                             </div>
 
                             <!-- Shift 2 Transaction -->
                             <div class="d-flex justify-content-center mt-2">
                                 <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled>Shift 2</button>
-                                <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled><?= $data['shift2_press'] ?></button>
-                                <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled><?= $data['shift2_paint'] ?></button>
+                                <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled><?= $data['shift2_injection'] ?></button>
                                 <button type="button" class="btn btn-sm btn-outline w-100" disabled><?= $data['shift2_assy'] ?></button>
                             </div>
 
                             <!-- Shift 3 Transaction -->
                             <div class="d-flex justify-content-center mt-2">
                                 <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled>Shift 3</button>
-                                <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled><?= $data['shift3_press'] ?></button>
-                                <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled><?= $data['shift3_paint'] ?></button>
+                                <button type="button" class="me-1 btn btn-sm btn-outline w-100" disabled><?= $data['shift3_injection'] ?></button>
                                 <button type="button" class="btn btn-sm btn-outline w-100" disabled><?= $data['shift3_assy'] ?></button>
                             </div>
 
                             <!-- Total BK -->
                             <div class="d-flex justify-content-center mt-2">
                                 <button type="button" class="btn btn-sm btn-outline-warning w-100 me-1" disabled>Total Voucher</button>
-                                <button type="button" class="btn btn-sm btn-outline-warning w-100 me-1" disabled><?= $data['qty_bk_press'] ?></button>
-                                <button type="button" class="btn btn-sm btn-outline-warning w-100 me-1" disabled><?= $data['qty_bk_paint'] ?></button>
+                                <button type="button" class="btn btn-sm btn-outline-warning w-100 me-1" disabled><?= $data['qty_bk_injection'] ?></button>
                                 <button type="button" class="btn btn-sm btn-outline-warning w-100" disabled><?= $data['qty_bk_assy'] ?></button>
                             </div>
 
                             <!-- Live Stock -->
                             <div class="d-flex justify-content-center mt-2">
                                 <button type="button" class="btn btn-sm btn-outline-success w-100 me-1" disabled>Live Stock</button>
-                                <button type="button" class="btn btn-sm btn-outline-success w-100 me-1" disabled><?= $data['stock_press'] ?></button>
-                                <button type="button" class="btn btn-sm btn-outline-success w-100 me-1" disabled><?= $data['stock_paint'] ?></button>
+                                <button type="button" class="btn btn-sm btn-outline-success w-100 me-1" disabled><?= $data['stock_injection'] ?></button>
                                 <button type="button" class="btn btn-sm btn-outline-success w-100" disabled><?= $data['total_assy'] ?></button>
                             </div>
 
@@ -184,8 +176,7 @@ require 'function_index.php';
                                                     </div>
                                                     <div class="form-floating mb-3">
                                                         <select name="area" class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                                                            <option value="press">PRESS</option>
-                                                            <option value="paint">PAINT</option>
+                                                            <option value="injection">INJECTION</option>
                                                             <option value="assy">ASSY</option>
                                                         </select>
                                                         <label for="floatingSelect">Area</label>

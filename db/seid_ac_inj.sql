@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 29 Des 2025 pada 14.17
+-- Waktu pembuatan: 29 Des 2025 pada 14.36
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -24,6 +24,22 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `history_ls`
+--
+
+CREATE TABLE `history_ls` (
+  `id` int(11) NOT NULL,
+  `date_prod` date NOT NULL,
+  `part_code` varchar(32) NOT NULL,
+  `qty_end_injection` int(11) NOT NULL,
+  `qty_end_assy` int(11) NOT NULL,
+  `qty_bk_injection` int(11) NOT NULL,
+  `qty_bk_assy` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `part`
 --
 
@@ -32,6 +48,13 @@ CREATE TABLE `part` (
   `part_name` varchar(32) NOT NULL,
   `qty_injection` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `part`
+--
+
+INSERT INTO `part` (`part_code`, `part_name`, `qty_injection`) VALUES
+('ABC', 'Test', 0);
 
 -- --------------------------------------------------------
 
@@ -74,6 +97,12 @@ INSERT INTO `user` (`username`, `password`, `role`) VALUES
 --
 
 --
+-- Indeks untuk tabel `history_ls`
+--
+ALTER TABLE `history_ls`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `part`
 --
 ALTER TABLE `part`
@@ -94,6 +123,12 @@ ALTER TABLE `user`
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
+
+--
+-- AUTO_INCREMENT untuk tabel `history_ls`
+--
+ALTER TABLE `history_ls`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `transaction`
