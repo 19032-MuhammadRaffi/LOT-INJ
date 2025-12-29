@@ -23,9 +23,10 @@ $part = mysqli_fetch_assoc($result);
 if (isset($_POST['btn_update_part'])) {
     $part_code = $_POST['part_code'];
     $part_name = $_POST['part_name'];
+    $area = $_POST['area'];
     $qty_injection = $_POST['qty_injection'];
 
-    $query = "UPDATE part SET part_name = '$part_name', qty_injection = '$qty_injection' WHERE part_code = '$part_code'";
+    $query = "UPDATE part SET part_name = '$part_name', area = '$area', qty_injection = '$qty_injection' WHERE part_code = '$part_code'";
     mysqli_query($conn, $query);
     // Alert Success
     echo "<script>alert('Success');</script>";
@@ -115,6 +116,13 @@ if (isset($_POST['btn_delete_part'])) {
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingInput" name="part_name" value="<?php echo htmlspecialchars($part['part_name']); ?>">
                                     <label for="floatingInput">Part Name</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="floatingSelect" name="area">
+                                        <option value="AC" <?php if ($part['area'] == 'AC') echo 'selected'; ?>>AC</option>
+                                        <option value="WM" <?php if ($part['area'] == 'WM') echo 'selected'; ?>>WM</option>
+                                    </select>
+                                    <label for="floatingSelect">Area</label>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingInput" name="qty_injection" value="<?php echo htmlspecialchars($part['qty_injection']); ?>">

@@ -24,12 +24,13 @@ if (isset($_POST['btn_update_user'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $role = $_POST['role'];
+    $area = $_POST['area'];
 
-    $query = "UPDATE user SET password = '$password', role = '$role' WHERE username = '$username'";
+    $query = "UPDATE user SET password = '$password', role = '$role', area = '$area' WHERE username = '$username'";
     mysqli_query($conn, $query);
     echo "<script>alert('Success');</script>";
     echo "<script>window.location.href = '../index.php';</script>";
-     exit;
+    exit;
 }
 
 // Delete user
@@ -120,6 +121,14 @@ if (isset($_POST['btn_delete_user'])) {
                                         <option value="Admin" <?php if ($user['role'] == 'Admin') echo 'selected'; ?>>Admin</option>
                                         <option value="Injection" <?php if ($user['role'] == 'Injection') echo 'selected'; ?>>Injection</option>
                                         <option value="Assy" <?php if ($user['role'] == 'Assy') echo 'selected'; ?>>Assy</option>
+                                    </select>
+                                    <label for="floatingSelect">Role</label>
+                                </div>
+                                <div class="form-floating mt-3">
+                                    <select class="form-select" id="floatingSelect" name="area">
+                                        <option value="AC" <?php if ($user['area'] == 'AC') echo 'selected'; ?>>AC</option>
+                                        <option value="WM" <?php if ($user['area'] == 'WM') echo 'selected'; ?>>WM</option>
+                                        <option value="ALL" <?php if ($user['area'] == 'ALL') echo 'selected'; ?>>ALL</option>
                                     </select>
                                     <label for="floatingSelect">Role</label>
                                 </div>

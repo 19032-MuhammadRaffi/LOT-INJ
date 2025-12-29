@@ -41,8 +41,9 @@ if (isset($_POST['btn_add_user'])) {
 if (isset($_POST['btn_add_part'])) {
     $part_code = $_POST['part_code'];
     $part_name = $_POST['part_name'];
+    $area = $_POST['area'];
 
-    $query = "INSERT INTO part (part_code, part_name) VALUES ('$part_code', '$part_name')";
+    $query = "INSERT INTO part (part_code, part_name, area) VALUES ('$part_code', '$part_name', '$area')";
     mysqli_query($conn, $query);
     echo "<script>alert('Success');</script>";
     echo "<script>window.location.href = 'index.php';</script>";
@@ -139,6 +140,14 @@ if (isset($_POST['btn_add_part'])) {
                                                     </select>
                                                     <label for="floatingSelect">Role</label>
                                                 </div>
+                                                <div class="form-floating mt-3">
+                                                    <select class="form-select" id="floatingSelect" name="area">
+                                                        <option value="AC">AC</option>
+                                                        <option value="WM">WM</option>
+                                                        <option value="ALL">ALL</option>
+                                                    </select>
+                                                    <label for="floatingSelect">Role</label>
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -158,6 +167,7 @@ if (isset($_POST['btn_add_part'])) {
                                     <th scope="col">Username</th>
                                     <th scope="col">Password</th>
                                     <th scope="col">Role</th>
+                                    <th scope="col">Area</th>
                                     <th scope="col" style="width: 90px;">Action</th>
                                 </tr>
                             </thead>
@@ -168,6 +178,7 @@ if (isset($_POST['btn_add_part'])) {
                                         <td><?php echo htmlspecialchars($user['username']); ?></td>
                                         <td>********</td>
                                         <td><?php echo htmlspecialchars($user['role']); ?></td>
+                                        <td><?php echo htmlspecialchars($user['area']); ?></td>
                                         <td>
                                             <a class="btn btn-sm btn-warning" href="function/user_action.php?username=<?php echo $user['username']; ?>">Manage</a>
                                         </td>
@@ -204,6 +215,13 @@ if (isset($_POST['btn_add_part'])) {
                                                     <input type="text" class="form-control" id="floatingPartName" name="part_name">
                                                     <label for="floatingPartName">Part Name</label>
                                                 </div>
+                                                <div class="form-floating mt-3">
+                                                    <select class="form-select" id="floatingSelect" name="area">
+                                                        <option value="AC">AC</option>
+                                                        <option value="WM">WM</option>
+                                                    </select>
+                                                    <label for="floatingSelect">Area</label>
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -222,6 +240,7 @@ if (isset($_POST['btn_add_part'])) {
                                 <tr>
                                     <th scope="col">Part Code</th>
                                     <th scope="col">Part Name</th>
+                                    <th scope="col">Area</th>
                                     <th scope="col" style="width: 90px;">Action</th>
                                 </tr>
                             </thead>
@@ -231,6 +250,7 @@ if (isset($_POST['btn_add_part'])) {
                                     <tr>
                                         <td><?php echo htmlspecialchars($part['part_code']); ?></td>
                                         <td><?php echo htmlspecialchars($part['part_name']); ?></td>
+                                        <td><?php echo htmlspecialchars($part['area']); ?></td>
                                         <td>
                                             <a class="btn btn-sm btn-warning" href="function/part_action.php?part_code=<?php echo $part['part_code']; ?>">Manage</a>
                                         </td>
