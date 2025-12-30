@@ -64,7 +64,7 @@ require 'function_index.php';
             </form>
             <?php if (!$loadData): ?>
                 <p style="text-align:center;color:#888">
-                    Silakan pilih AC atau WM untuk menampilkan data history
+                    Silakan pilih AC atau WM untuk menampilkan data produksi
                 </p>
             <?php endif; ?>
             <?php foreach ($komponen as $kode => $data): ?>

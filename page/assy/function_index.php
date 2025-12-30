@@ -163,3 +163,144 @@ if ($loadData) {
 $now = date('Y-m-d H:i:s');
 $productionDateDisplay = date('d/m/Y', strtotime(getProductionDateOnly($now)));
 $productionShiftDisplay = getShift(date('H:i'));
+
+// ========================
+// HANDLE FINISH PRODUCTION
+// ========================
+if (isset($_POST['btn_finish'])) {
+
+    $partCode = $_POST['part_code'] ?? '';
+    $qty      = isset($_POST['qty']) ? (int)$_POST['qty'] : 0;
+
+    // VALIDASI INPUT
+    if ($partCode === '' || $qty <= 0) {
+        echo "<script>
+            alert('Part code atau qty tidak valid');
+            history.back();
+        </script>";
+        exit;
+    }
+
+    $now   = date('Y-m-d H:i:s');
+    $shift = getShift(date('H:i'));
+
+    // START TRANSACTION
+    mysqli_begin_transaction($conn);
+
+    try {
+        // INSERT TRANSACTION ASSY
+        if (!mysqli_query($conn, "
+            INSERT INTO `transaction`
+            (part_code, date_tr, shift, qty, status)
+            VALUES
+            ('$partCode', '$now', '$shift', '$qty', 'ASSY')
+        ")) {
+            throw new Exception('Gagal insert transaction ASSY');
+        }
+
+        // UPDATE STOCK ASSY
+        if (!mysqli_query($conn, "
+            UPDATE part 
+            SET qty_injection = qty_injection - $qty 
+            WHERE part_code = '$partCode'
+        ")) {
+            throw new Exception('Gagal update stok ASSY');
+        }
+
+        // COMMIT
+        mysqli_commit($conn);
+
+        echo "<script>
+            alert('Finish production recorded successfully');
+            location.href='index.php';
+        </script>";
+        exit;
+    } catch (Exception $e) {
+        // ROLLBACK
+        mysqli_rollback($conn);
+
+        echo "<script>
+            alert('ERROR: {$e->getMessage()}');
+            history.back();
+        </script>";
+        exit;
+    }
+}
+
+// ============================
+// HANDLE BLUE & YELLOW VOUCHER
+// ============================
+if (isset($_POST['btn_voucher'])) {
+
+    $partCode = $_POST['part_code'] ?? '';
+    $area     = $_POST['area'] ?? '';
+    $qty      = isset($_POST['qty']) ? (int)$_POST['qty'] : 0;
+
+    // VALIDASI INPUT
+    if ($partCode === '' || $qty <= 0) {
+        echo "<script>
+            alert('Input tidak valid');
+            history.back();
+        </script>";
+        exit;
+    }
+
+    // START TRANSACTION
+    mysqli_begin_transaction($conn);
+
+    try {
+        // CEK HISTORY_LS TABLE FOR MONTHLY IF EXISTS UPDATE ELSE INSERT
+        $historyCheck = mysqli_query($conn, "
+            SELECT * FROM history_ls
+            WHERE part_code = '$partCode'
+            AND DATE_FORMAT(date_prod, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+        ");
+
+        // TABLE HISTORY_LS UPDATE / INSERT
+        if (mysqli_num_rows($historyCheck) > 0) {
+            if (!mysqli_query($conn, "
+                UPDATE history_ls
+                SET qty_bk_{$area} = qty_bk_{$area} + $qty
+                WHERE part_code = '$partCode'
+                AND DATE_FORMAT(date_prod, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+            ")) {
+                throw new Exception('Gagal update history_ls');
+            }
+        } else {
+            if (!mysqli_query($conn, "
+                INSERT INTO history_ls
+                (date_prod, part_code, qty_bk_{$area})
+                VALUES
+                (CURDATE(), '$partCode', $qty)
+            ")) {
+                throw new Exception('Gagal insert history_ls');
+            }
+        }
+
+        // UPDATE TABLE PART STOCK
+        if (!mysqli_query($conn, "
+                UPDATE part
+                SET qty_injection = qty_injection - $qty
+                WHERE part_code = '$partCode'
+            ")) {
+            throw new Exception('Gagal update part stock untuk assy');
+        }
+
+        // COMMIT
+        mysqli_commit($conn);
+
+        echo "<script>
+            alert('Voucher recorded successfully');
+            location.href='index.php';
+        </script>";
+        exit;
+    } catch (Exception $e) {
+        mysqli_rollback($conn);
+
+        echo "<script>
+            alert('ERROR: {$e->getMessage()}');
+            history.back();
+        </script>";
+        exit;
+    }
+}
