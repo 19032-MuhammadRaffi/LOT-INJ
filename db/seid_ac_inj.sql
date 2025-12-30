@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 29 Des 2025 pada 14.36
+-- Waktu pembuatan: 30 Des 2025 pada 01.28
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -37,6 +37,14 @@ CREATE TABLE `history_ls` (
   `qty_bk_assy` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `history_ls`
+--
+
+INSERT INTO `history_ls` (`id`, `date_prod`, `part_code`, `qty_end_injection`, `qty_end_assy`, `qty_bk_injection`, `qty_bk_assy`) VALUES
+(5, '2025-12-29', 'ABC', 600, 0, 50, 50),
+(6, '2025-12-29', 'DEF', 0, 0, 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -46,15 +54,17 @@ CREATE TABLE `history_ls` (
 CREATE TABLE `part` (
   `part_code` varchar(32) NOT NULL,
   `part_name` varchar(32) NOT NULL,
-  `qty_injection` int(11) NOT NULL
+  `qty_injection` int(11) NOT NULL,
+  `area` enum('WM','AC') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `part`
 --
 
-INSERT INTO `part` (`part_code`, `part_name`, `qty_injection`) VALUES
-('ABC', 'Test', 0);
+INSERT INTO `part` (`part_code`, `part_name`, `qty_injection`, `area`) VALUES
+('ABC', 'Test', 600, 'WM'),
+('DEF', 'Test 2', 0, 'AC');
 
 -- --------------------------------------------------------
 
@@ -71,6 +81,14 @@ CREATE TABLE `transaction` (
   `status` enum('INJECTION','ASSY') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `transaction`
+--
+
+INSERT INTO `transaction` (`id`, `part_code`, `date_tr`, `shift`, `qty`, `status`) VALUES
+(32, 'ABC', '2025-12-29 20:48:37', '2', 500, 'INJECTION'),
+(33, 'ABC', '2025-12-29 20:48:54', '2', 200, 'ASSY');
+
 -- --------------------------------------------------------
 
 --
@@ -80,17 +98,19 @@ CREATE TABLE `transaction` (
 CREATE TABLE `user` (
   `username` varchar(32) NOT NULL,
   `password` varchar(32) NOT NULL,
-  `role` enum('Admin','Injection','Assy') NOT NULL
+  `role` enum('Admin','Injection','Assy') NOT NULL,
+  `area` enum('WM','AC','ALL') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `user`
 --
 
-INSERT INTO `user` (`username`, `password`, `role`) VALUES
-('admin01', 'SeidMail01', 'Admin'),
-('assy01', 'SeidMail01', 'Assy'),
-('injection01', 'SeidMail01', 'Injection');
+INSERT INTO `user` (`username`, `password`, `role`, `area`) VALUES
+('admin01', 'SeidMail01', 'Admin', 'ALL'),
+('assy01', 'SeidMail01', 'Assy', 'AC'),
+('injection01', 'SeidMail01', 'Injection', 'ALL'),
+('wm01', 'SeidMail01', 'Assy', 'WM');
 
 --
 -- Indexes for dumped tables
@@ -128,13 +148,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `history_ls`
 --
 ALTER TABLE `history_ls`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
