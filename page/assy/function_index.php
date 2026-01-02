@@ -188,6 +188,21 @@ if (isset($_POST['btn_finish'])) {
     mysqli_begin_transaction($conn);
 
     try {
+        // Cek stock injection cukup
+        $stockCheck = mysqli_query($conn, "
+            SELECT qty_injection
+            FROM part 
+            WHERE part_code = '$partCode'
+        ");
+
+        if (mysqli_num_rows($stockCheck) == 0) {
+            throw new Exception('Part not found');
+        }
+
+        $stockRow = mysqli_fetch_assoc($stockCheck);
+        if ($stockRow['qty_injection'] < $qty) {
+            throw new Exception('Insufficient stock in injection');
+        }
         // INSERT TRANSACTION ASSY
         if (!mysqli_query($conn, "
             INSERT INTO `transaction`

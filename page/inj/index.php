@@ -165,7 +165,7 @@ require 'function_index.php';
 
                             <!-- Button BK Production -->
                             <div class="d-flex justify-content-center mt-2">
-                                <button type="button" class="btn btn-sm btn-warning w-100" data-bs-toggle="modal" data-bs-target="#InputBKModal<?= $data['part_code'] ?>">Blue & Yellow Voucher</button>
+                                <!-- <button type="button" class="btn btn-sm btn-warning w-100" data-bs-toggle="modal" data-bs-target="#InputBKModal<?= $data['part_code'] ?>">Blue & Yellow Voucher</button> -->
                                 <div class="modal fade" id="InputBKModal<?= $data['part_code'] ?>" tabindex="-1" aria-labelledby="InputBKModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
