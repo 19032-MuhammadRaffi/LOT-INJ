@@ -1,7 +1,5 @@
 <?php
-// =====================
 // DATABASE & SESSION
-// =====================
 require '../../conn.php';
 session_start();
 
@@ -10,33 +8,30 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Injection') {
     exit;
 }
 
-date_default_timezone_set('Asia/Jakarta');
-$currentDate = date('Y-m-d');
-
-// =====================
 // AUTO REFRESH
-// =====================
 echo '<meta http-equiv="refresh" content="60">';
 
-// =====================
 // LOGOUT
-// =====================
 if (isset($_POST['btn_logout'])) {
     session_destroy();
     header('location: ../../index.php');
     exit;
 }
 
-// =====================
-// FUNCTION
-// =====================
+date_default_timezone_set('Asia/Jakarta');
+// Function Production Date
 function getProductionDateOnly($datetime)
 {
     $time = date('H:i', strtotime($datetime));
     $date = date('Y-m-d', strtotime($datetime));
-    return ($time < '08:00') ? date('Y-m-d', strtotime($date . ' -1 day')) : $date;
+
+    if ($time < '08:00') {
+        return date('Y-m-d', strtotime($date . ' -1 day'));
+    }
+    return $date;
 }
 
+// Function Shift
 function getShift($time)
 {
     if ($time >= '08:00' && $time < '17:00') return 1;
@@ -44,9 +39,22 @@ function getShift($time)
     return 3;
 }
 
-// =====================
+// SINGLE SOURCE OF TRUTH (WAJIB)
+$now = date('Y-m-d H:i:s');
+
+// KHUSUS TESTING
+// $now = '2026-01-07 00:40:00';
+
+$currentDate  = getProductionDateOnly($now);               // PRODUCTION DATE
+$currentShift = getShift(date('H:i', strtotime($now)));   // PRODUCTION SHIFT
+
+$currentDateTr  = $currentDate . ' ' . date('H:i:s', strtotime($now));
+$currentShiftTr = $currentShift;
+
+$productionDateDisplay  = date('d/m/Y', strtotime($currentDate));
+$productionShiftDisplay = $currentShift;
+
 // FLAG LOAD DATA
-// =====================
 $komponen = [];
 $loadData = false;
 $area = '';
@@ -59,12 +67,10 @@ if (isset($_POST['AC_DATA'])) {
     $loadData = true;
 }
 
-// =====================
 // LOAD DATA ONLY IF BUTTON CLICKED
-// =====================
 if ($loadData) {
 
-    // ---------- PART ----------
+    // PART MASTER
     $partResult = mysqli_query($conn, "
         SELECT part_code, part_name, area
         FROM part
@@ -93,21 +99,21 @@ if ($loadData) {
         ];
     }
 
-    // ---------- TRANSACTIONS ----------
-    function getTrans($status)
+    // TRANSACTIONS QUERY
+    function getTrans($status, $currentDate)
     {
         return "
             SELECT part_code, date_tr, shift, qty
             FROM `transaction`
-            WHERE status='$status'
-              AND DATE_FORMAT(date_tr, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+            WHERE status = '$status'
+            AND DATE(date_tr) = '$currentDate'
         ";
     }
 
-    $injectionData = mysqli_query($conn, getTrans('INJECTION'));
-    $assyData      = mysqli_query($conn, getTrans('ASSY'));
+    $injectionData = mysqli_query($conn, getTrans('INJECTION', $currentDate));
+    $assyData      = mysqli_query($conn, getTrans('ASSY', $currentDate));
 
-    // ---------- VOUCHER ----------
+    // VOUCHER
     $voucherResult = mysqli_query($conn, "
         SELECT part_code, qty_bk_injection, qty_bk_assy
         FROM history_ls
@@ -121,60 +127,49 @@ if ($loadData) {
         }
     }
 
-    // ---------- INJECTION ----------
+    // INJECTION LOOP (FIX)
     while ($tr = mysqli_fetch_assoc($injectionData)) {
         if (!isset($komponen[$tr['part_code']])) continue;
 
-        $qty = (int)$tr['qty'];
+        $qty   = (int)$tr['qty'];
         $shift = (int)$tr['shift'];
-        $prodDate = getProductionDateOnly($tr['date_tr']);
 
         $komponen[$tr['part_code']]['total_injection'] += $qty;
 
-        if ($prodDate === $currentDate) {
+        if (date('Y-m-d', strtotime($tr['date_tr'])) === $currentDate) {
             $komponen[$tr['part_code']]['daily_injection'] += $qty;
             $komponen[$tr['part_code']]["shift{$shift}_injection"] += $qty;
         }
     }
 
-    // ---------- ASSY ----------
+    // ASSY LOOP (FIX)
     while ($tr = mysqli_fetch_assoc($assyData)) {
         if (!isset($komponen[$tr['part_code']])) continue;
 
-        $qty = (int)$tr['qty'];
+        $qty   = (int)$tr['qty'];
         $shift = (int)$tr['shift'];
-        $prodDate = getProductionDateOnly($tr['date_tr']);
 
         $komponen[$tr['part_code']]['total_assy'] += $qty;
 
-        if ($prodDate === $currentDate) {
+        if (date('Y-m-d', strtotime($tr['date_tr'])) === $currentDate) {
             $komponen[$tr['part_code']]['daily_assy'] += $qty;
             $komponen[$tr['part_code']]["shift{$shift}_assy"] += $qty;
         }
     }
 
-    // ---------- STOCK ----------
+    // STOCK
     foreach ($komponen as &$d) {
         $s = mysqli_fetch_assoc(mysqli_query($conn, "
             SELECT qty_injection
             FROM part
-            WHERE part_code='{$d['part_code']}'
+            WHERE part_code = '{$d['part_code']}'
         "));
         $d['stock_injection'] = (int)$s['qty_injection'];
     }
     unset($d);
 }
 
-// =====================
-// DISPLAY DATE & SHIFT
-// =====================
-$now = date('Y-m-d H:i:s');
-$productionDateDisplay = date('d/m/Y', strtotime(getProductionDateOnly($now)));
-$productionShiftDisplay = getShift(date('H:i'));
-
-// ========================
 // HANDLE FINISH PRODUCTION
-// ========================
 if (isset($_POST['btn_finish'])) {
 
     $partCode = $_POST['part_code'] ?? '';
@@ -201,7 +196,7 @@ if (isset($_POST['btn_finish'])) {
             INSERT INTO `transaction`
             (part_code, date_tr, shift, qty, status)
             VALUES
-            ('$partCode', '$now', '$shift', '$qty', 'INJECTION')
+            ('$partCode', '$currentDateTr', '$currentShiftTr', '$qty', 'INJECTION')
         ")) {
             throw new Exception('Gagal insert transaction INJECTION');
         }
@@ -235,9 +230,7 @@ if (isset($_POST['btn_finish'])) {
     }
 }
 
-// ============================
 // HANDLE BLUE & YELLOW VOUCHER
-// ============================
 if (isset($_POST['btn_voucher'])) {
 
     $partCode = $_POST['part_code'] ?? '';
