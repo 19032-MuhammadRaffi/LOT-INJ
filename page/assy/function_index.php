@@ -40,10 +40,10 @@ function getShift($time)
 }
 
 // SINGLE SOURCE OF TRUTH (WAJIB)
-// $now = date('Y-m-d H:i:s');
+$now = date('Y-m-d H:i:s');
 
 // KHUSUS TESTING
-$now = '2026-01-07 00:40:00';
+// $now = '2026-01-07 00:40:00';
 
 $currentDate  = getProductionDateOnly($now);               // PRODUCTION DATE
 $currentShift = getShift(date('H:i', strtotime($now)));   // PRODUCTION SHIFT
