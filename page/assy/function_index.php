@@ -25,7 +25,7 @@ function getProductionDateOnly($datetime)
     $time = date('H:i', strtotime($datetime));
     $date = date('Y-m-d', strtotime($datetime));
 
-    if ($time < '08:00') {
+    if ($time < '09:00') {
         return date('Y-m-d', strtotime($date . ' -1 day'));
     }
     return $date;
