@@ -43,7 +43,7 @@ function getShift($time)
 $now = date('Y-m-d H:i:s');
 
 // KHUSUS TESTING
-// $now = '2026-01-07 00:40:00';
+// $now = '2026-01-07 01:40:00';
 
 $currentDate  = getProductionDateOnly($now);               // PRODUCTION DATE
 $currentShift = getShift(date('H:i', strtotime($now)));   // PRODUCTION SHIFT
@@ -98,7 +98,7 @@ if ($loadData) {
             SELECT part_code, date_tr, shift, qty
             FROM `transaction`
             WHERE status = '$status'
-            AND DATE(date_tr) = '$currentDate'
+            AND DATE_FORMAT(date_tr, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
         ";
     }
 

@@ -78,6 +78,12 @@ if (isset($_POST['btn_add_part'])) {
     <div class="container-fluid text-center">
         <!-- ROW 1 -->
         <div class="row mt-3">
+            <div class="col text-start">
+                <button class="btn btn-sm btn-outline-success" disabled><?php echo "Admin" ?></button>
+            </div>
+            <div class="col text-center">
+                <a href="transaction.php" class="btn btn-sm btn-outline-primary mb-1" style="width: 150px;">Transaction History</a>
+            </div>
             <div class="col text-end">
                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</button>
             </div>
@@ -104,7 +110,7 @@ if (isset($_POST['btn_add_part'])) {
             </div>
         </div>
         <!-- ROW 2 -->
-        <h3>Data Master</h3>
+        <h3 class="mt-4">Data Master</h3>
         <div class="row mt-3">
             <!-- User Management -->
             <div class="col">

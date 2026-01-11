@@ -44,7 +44,9 @@ require 'function_history.php';
                 <button class="btn btn-sm btn-outline-success" disabled><?php echo "Leader " . $_SESSION['role'] . " - " . $productionDateDisplay . " - Shift " . $productionShiftDisplay ?></button>
             </div>
             <div class="col text-center">
-                <a href="index.php" class="btn btn-sm btn-outline-primary" style="width: 150px;">Dashboard</a>
+                <a href="index.php" class="btn btn-sm btn-outline-primary mb-1" style="width: 150px;">Dashboard</a>
+                <a href="history.php" class="btn btn-sm btn-primary mb-1" style="width: 150px;">Production Report</a>
+                <a href="transaction.php" class="btn btn-sm btn-outline-primary mb-1" style="width: 150px;">Transaction History</a>
             </div>
             <div class="col text-end">
                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</button>
@@ -98,7 +100,7 @@ require 'function_history.php';
                 <div class="col-md-6 col-lg-6 col-xl-3 mt-2">
                     <div class="card text-center mb-3">
                         <div class="card-body align-middle" style="font-size: 10px;">
-                            <h4 class="card-title"><?= $data['part_name'] ?></h4>
+                            <h4 class="card-title"><?= $data['part_name'] . " (" . $data['part_code'] . ")" ?></h4>
 
                             <!-- Monthly -->
                             <div class="d-flex justify-content-center mt-2">

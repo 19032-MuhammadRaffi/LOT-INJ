@@ -106,7 +106,7 @@ if ($loadData) {
             SELECT part_code, date_tr, shift, qty
             FROM `transaction`
             WHERE status = '$status'
-            AND DATE(date_tr) = '$currentDate'
+            AND DATE_FORMAT(date_tr, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
         ";
     }
 
