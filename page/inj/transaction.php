@@ -59,7 +59,7 @@ require 'function_transaction.php';
         </div>
         <!-- Data -->
         <div class="row mt-4">
-            <p class="h2">Injection Production Data</p>
+            <p class="h2">Tansaction History</p>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped table-sm mt-3 text-center mx-auto" style="min-width: 1000px; width: auto;">
                     <thead class="table-dark">
