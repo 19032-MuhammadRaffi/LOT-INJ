@@ -73,7 +73,7 @@ require 'function_index.php';
                 <div class="col-md-6 col-lg-6 col-xl-3 mt-3">
                     <div class="card text-center mb-3">
                         <div class="card-body align-middle" style="font-size: 10px;">
-                            <h4 class="card-title"><?= $data['part_name'] . " (" . $data['part_code'] . ")" ?></h4>
+                            <h5 class="card-title"><?= $data['part_name'] . " (" . $data['part_code'] . ")" ?></h5>
                             <!-- Header -->
                             <div class="d-flex justify-content-center mt-2">
                                 <button type="button" class="me-1 btn btn-sm btn-primary w-100" disabled>Keterangan</button>
