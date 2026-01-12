@@ -94,7 +94,7 @@ require 'function_history.php';
         <!-- Table Report -->
         <div class="row">
             <!-- Production History -->
-            <h4 class="text-center my-3">History Production - <?= date('F', mktime(0, 0, 0, $selectedMonth, 1)) ?> <?= $selectedYear ?></h4>
+            <h5 class="text-center my-3">History Production - <?= date('F', mktime(0, 0, 0, $selectedMonth, 1)) ?> <?= $selectedYear ?></h5>
             <form method="POST" class="mt-3 d-flex gap-2 align-items-center justify-content-center">
                 <button type="submit" name="AC_DATA" class="btn btn-primary">AC Production</button>
                 <button type="submit" name="WM_DATA" class="btn btn-primary">WM Production</button>

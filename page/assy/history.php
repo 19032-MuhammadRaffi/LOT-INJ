@@ -94,7 +94,7 @@ require 'function_history.php';
         <!-- Table Report -->
         <div class="row">
             <!-- Production History -->
-            <h4 class="text-center my-3">History Production - <?= date('F', mktime(0, 0, 0, $selectedMonth, 1)) ?> <?= $selectedYear ?></h4>
+            <h5 class="text-center my-3">History Production - <?= date('F', mktime(0, 0, 0, $selectedMonth, 1)) ?> <?= $selectedYear ?></h5>
             <?php
             foreach ($komponen as $kode => $data): ?>
                 <div class="col-md-6 col-lg-6 col-xl-3 mt-2">
